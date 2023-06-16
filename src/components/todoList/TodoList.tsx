@@ -1,11 +1,16 @@
-import { taskType } from '../app/App';
+import { TaskType } from '../app/App';
 
 type TodoListPropsType = {
   title: string;
-  tasks: taskType[];
+  tasks: TaskType[];
+  removeTask: (id: string) => void;
 };
 
-export const TodoList: React.FC<TodoListPropsType> = ({ title, tasks }) => {
+export const TodoList: React.FC<TodoListPropsType> = ({
+  title,
+  tasks,
+  removeTask,
+}) => {
   return (
     <div>
       <h3>{title}</h3>
@@ -13,12 +18,13 @@ export const TodoList: React.FC<TodoListPropsType> = ({ title, tasks }) => {
       <button>Add</button>
       <ul>
         {tasks.map((task) => (
-          <li>
+          <li key={task.id}>
             <input
               type='checkbox'
               checked={task.isDone}
             />
             <span>{task.title}</span>
+            <button onClick={() => removeTask(task.id)}>×</button>
           </li>
         ))}
       </ul>
