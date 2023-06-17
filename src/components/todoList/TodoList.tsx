@@ -1,15 +1,17 @@
-import { TaskType } from '../app/App';
+import { FilterValueType, TaskType } from '../app/App';
 
 type TodoListPropsType = {
   title: string;
   tasks: TaskType[];
   removeTask: (id: string) => void;
+  changeFilter: (filterValue: FilterValueType) => void;
 };
 
 export const TodoList: React.FC<TodoListPropsType> = ({
   title,
   tasks,
   removeTask,
+  changeFilter,
 }) => {
   return (
     <div>
@@ -28,9 +30,9 @@ export const TodoList: React.FC<TodoListPropsType> = ({
           </li>
         ))}
       </ul>
-      <button>All</button>
-      <button>Active</button>
-      <button>Completed</button>
+      <button onClick={() => changeFilter('all')}>All</button>
+      <button onClick={() => changeFilter('active')}>Active</button>
+      <button onClick={() => changeFilter('completed')}>Completed</button>
     </div>
   );
 };
