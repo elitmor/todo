@@ -31,6 +31,15 @@ export const App = () => {
     tasksForTodoList = tasks.filter((task) => task.isDone === false);
   }
 
+  const addTask = (titleValue: string) => {
+    const newTask = {
+      id: v1(),
+      title: titleValue,
+      isDone: false,
+    };
+    setTasks([...tasks, newTask]);
+  };
+
   const removeTask = (id: string) => {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
   };
@@ -44,6 +53,7 @@ export const App = () => {
       <TodoList
         title='What to Learn'
         tasks={tasksForTodoList}
+        addTask={addTask}
         removeTask={removeTask}
         changeFilter={changeFilter}
       />
