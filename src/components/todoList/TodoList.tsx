@@ -7,6 +7,7 @@ type TodoListPropsType = {
   addTask: (titleValue: string) => void;
   removeTask: (id: string) => void;
   changeFilter: (filterValue: FilterValueType) => void;
+  changeTaskStatus: (taskId: string, isDone: boolean) => void;
 };
 
 export const TodoList: React.FC<TodoListPropsType> = ({
@@ -15,6 +16,7 @@ export const TodoList: React.FC<TodoListPropsType> = ({
   addTask,
   removeTask,
   changeFilter,
+  changeTaskStatus,
 }) => {
   const [newTaskInputValue, setNewTaskInputValue] = useState('');
 
@@ -23,7 +25,9 @@ export const TodoList: React.FC<TodoListPropsType> = ({
   };
 
   const handleAddTask = () => {
-    addTask(newTaskInputValue);
+    if (newTaskInputValue && newTaskInputValue.trim() !== '') {
+      addTask(newTaskInputValue.trim());
+    }
     setNewTaskInputValue('');
   };
 
@@ -66,9 +70,13 @@ export const TodoList: React.FC<TodoListPropsType> = ({
           const handleRemoveTask = () => {
             removeTask(task.id);
           };
+          const handleChangeTask = (e: ChangeEvent<HTMLInputElement>) => {
+            changeTaskStatus(task.id, e.currentTarget.checked);
+          };
           return (
             <li key={task.id}>
               <input
+                onChange={handleChangeTask}
                 type='checkbox'
                 checked={task.isDone}
               />

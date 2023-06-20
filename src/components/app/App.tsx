@@ -48,6 +48,14 @@ export const App = () => {
     setFilter(filterValue);
   };
 
+  const changeTaskStatus = (taskId: string, isDone: boolean) => {
+    setTasks((prevTasks) => {
+      return prevTasks.map((task) =>
+        task.id === taskId ? { ...task, isDone: isDone } : task,
+      );
+    });
+  };
+
   return (
     <div>
       <TodoList
@@ -56,6 +64,7 @@ export const App = () => {
         addTask={addTask}
         removeTask={removeTask}
         changeFilter={changeFilter}
+        changeTaskStatus={changeTaskStatus}
       />
     </div>
   );
