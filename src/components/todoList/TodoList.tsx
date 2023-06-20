@@ -19,14 +19,18 @@ export const TodoList: React.FC<TodoListPropsType> = ({
   changeTaskStatus,
 }) => {
   const [newTaskInputValue, setNewTaskInputValue] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
   const handleNewTaskInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setError(null);
     setNewTaskInputValue(e.currentTarget.value);
   };
 
   const handleAddTask = () => {
     if (newTaskInputValue && newTaskInputValue.trim() !== '') {
       addTask(newTaskInputValue.trim());
+    } else {
+      setError('Title is required!');
     }
     setNewTaskInputValue('');
   };
@@ -34,6 +38,8 @@ export const TodoList: React.FC<TodoListPropsType> = ({
   const handleNewTaskInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.code === 'Enter' && newTaskInputValue.trim() !== '') {
       handleAddTask();
+    } else {
+      setError('Title is required!');
     }
   };
 
@@ -53,6 +59,7 @@ export const TodoList: React.FC<TodoListPropsType> = ({
     <div>
       <h3>{title}</h3>
       <input
+        className={error ? 'error' : ''}
         onChange={handleNewTaskInputChange}
         value={newTaskInputValue}
         type='text'
@@ -65,6 +72,7 @@ export const TodoList: React.FC<TodoListPropsType> = ({
       >
         Add
       </button>
+      <div className='error-message'>{error}</div>
       <ul>
         {tasks.map((task) => {
           const handleRemoveTask = () => {

@@ -8,3 +8,11 @@ ul,
 li {
   list-style: none;
 }
+
+.error {
+  border: 1px red solid;
+}
+
+.error-message {
+  color: red;
+}
