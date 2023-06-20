@@ -16,3 +16,12 @@ li {
 .error-message {
   color: red;
 }
+
+.active-filter {
+  background-color: green;
+}
+
+.is-done {
+  color: gray;
+  text-decoration: line-through;
+}

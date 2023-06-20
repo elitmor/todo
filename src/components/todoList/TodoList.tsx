@@ -4,6 +4,7 @@ import { FilterValueType, TaskType } from '../app/App';
 type TodoListPropsType = {
   title: string;
   tasks: TaskType[];
+  filter: FilterValueType;
   addTask: (titleValue: string) => void;
   removeTask: (id: string) => void;
   changeFilter: (filterValue: FilterValueType) => void;
@@ -13,6 +14,7 @@ type TodoListPropsType = {
 export const TodoList: React.FC<TodoListPropsType> = ({
   title,
   tasks,
+  filter,
   addTask,
   removeTask,
   changeFilter,
@@ -82,7 +84,10 @@ export const TodoList: React.FC<TodoListPropsType> = ({
             changeTaskStatus(task.id, e.currentTarget.checked);
           };
           return (
-            <li key={task.id}>
+            <li
+              className={task.isDone ? 'is-done' : ''}
+              key={task.id}
+            >
               <input
                 onChange={handleChangeTask}
                 type='checkbox'
@@ -94,9 +99,24 @@ export const TodoList: React.FC<TodoListPropsType> = ({
           );
         })}
       </ul>
-      <button onClick={handleFilterAll}>All</button>
-      <button onClick={handleFilterActive}>Active</button>
-      <button onClick={handleFilterCompleted}>Completed</button>
+      <button
+        className={filter === 'all' ? 'active-filter' : ''}
+        onClick={handleFilterAll}
+      >
+        All
+      </button>
+      <button
+        className={filter === 'active' ? 'active-filter' : ''}
+        onClick={handleFilterActive}
+      >
+        Active
+      </button>
+      <button
+        className={filter === 'completed' ? 'active-filter' : ''}
+        onClick={handleFilterCompleted}
+      >
+        Completed
+      </button>
     </div>
   );
 };
