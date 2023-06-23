@@ -1,5 +1,6 @@
-import { ChangeEvent, KeyboardEvent, useState } from 'react';
+import { ChangeEvent } from 'react';
 import { FilterValueType, TaskType } from '../app/App';
+import { AddItemForm } from './addItemForm/AddItemForm';
 
 type TodoListPropsType = {
   id: string;
@@ -28,31 +29,6 @@ export const TodoList: React.FC<TodoListPropsType> = ({
   changeTaskStatus,
   removeTodoList,
 }) => {
-  const [newTaskInputValue, setNewTaskInputValue] = useState('');
-  const [error, setError] = useState<string | null>(null);
-
-  const handleNewTaskInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setError(null);
-    setNewTaskInputValue(e.currentTarget.value);
-  };
-
-  const handleAddTask = () => {
-    if (newTaskInputValue && newTaskInputValue.trim() !== '') {
-      addTask(newTaskInputValue.trim(), id);
-    } else {
-      setError('Title is required!');
-    }
-    setNewTaskInputValue('');
-  };
-
-  const handleNewTaskInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.code === 'Enter' && newTaskInputValue.trim() !== '') {
-      handleAddTask();
-    } else {
-      setError('Title is required!');
-    }
-  };
-
   const handleFilterAll = () => {
     changeFilter('all', id);
   };
@@ -69,21 +45,17 @@ export const TodoList: React.FC<TodoListPropsType> = ({
     removeTodoList(id);
   };
 
+  const handleAddTask = (titleValue: string) => {
+    addTask(titleValue, id);
+  };
+
   return (
     <div>
       <h3>
         {title}
         <button onClick={handleRemoveTodoList}>×</button>
       </h3>
-      <input
-        className={error ? 'error' : ''}
-        onChange={handleNewTaskInputChange}
-        value={newTaskInputValue}
-        type='text'
-        onKeyDown={handleNewTaskInputKeyDown}
-      />
-      <button onClick={handleAddTask}>Add</button>
-      <div className='error-message'>{error}</div>
+      <AddItemForm addItem={handleAddTask} />
       <ul>
         {tasks.map((task) => {
           const handleRemoveTask = () => {
