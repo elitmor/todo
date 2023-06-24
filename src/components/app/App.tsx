@@ -70,6 +70,21 @@ export const App = () => {
     setTasks(updatedTasks);
   };
 
+  const changeTaskTitle = (
+    taskId: string,
+    newTitle: string,
+    todoListId: string,
+  ) => {
+    const updatedTasks = {
+      ...tasks,
+      [todoListId]: tasks[todoListId].map((task) =>
+        task.id === taskId ? { ...task, title: newTitle } : task,
+      ),
+    };
+
+    setTasks(updatedTasks);
+  };
+
   const removeTodoList = (todoListId: string) => {
     const filteredTodoList = todoLists.filter((tl) => tl.id !== todoListId);
     setTodoLists(filteredTodoList);
@@ -137,6 +152,7 @@ export const App = () => {
             removeTask={removeTask}
             changeFilter={changeFilter}
             changeTaskStatus={changeTaskStatus}
+            changeTaskTitle={changeTaskTitle}
             removeTodoList={removeTodoList}
           />
         );

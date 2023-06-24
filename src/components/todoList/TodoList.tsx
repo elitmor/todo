@@ -1,6 +1,7 @@
 import { ChangeEvent } from 'react';
 import { FilterValueType, TaskType } from '../app/App';
 import { AddItemForm } from './addItemForm/AddItemForm';
+import { EditableSpan } from './editableSpan/EditableSpan';
 
 type TodoListPropsType = {
   id: string;
@@ -15,6 +16,7 @@ type TodoListPropsType = {
     isDone: boolean,
     todoListId: string,
   ) => void;
+  changeTaskTitle: (id: string, newTitle: string, todoListId: string) => void;
   removeTodoList: (todoListId: string) => void;
 };
 
@@ -27,6 +29,7 @@ export const TodoList: React.FC<TodoListPropsType> = ({
   removeTask,
   changeFilter,
   changeTaskStatus,
+  changeTaskTitle,
   removeTodoList,
 }) => {
   const handleFilterAll = () => {
@@ -61,20 +64,28 @@ export const TodoList: React.FC<TodoListPropsType> = ({
           const handleRemoveTask = () => {
             removeTask(task.id, id);
           };
-          const handleChangeTask = (e: ChangeEvent<HTMLInputElement>) => {
+          const handleChangeStatus = (e: ChangeEvent<HTMLInputElement>) => {
             changeTaskStatus(task.id, e.currentTarget.checked, id);
           };
+
+          const handleChangeTitle = (newValue: string) => {
+            changeTaskTitle(task.id, newValue, id);
+          };
+
           return (
             <li
               className={task.isDone ? 'is-done' : ''}
               key={task.id}
             >
               <input
-                onChange={handleChangeTask}
+                onChange={handleChangeStatus}
                 type='checkbox'
                 checked={task.isDone}
               />
-              <span>{task.title}</span>
+              <EditableSpan
+                title={task.title}
+                onChange={handleChangeTitle}
+              />
               <button onClick={handleRemoveTask}>×</button>
             </li>
           );
