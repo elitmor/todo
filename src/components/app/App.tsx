@@ -85,6 +85,14 @@ export const App = () => {
     setTasks(updatedTasks);
   };
 
+  const changeTodoListTitle = (id: string, newTitle: string) => {
+    const todoList = todoLists.find((tl) => tl.id === id);
+    if (todoList) {
+      todoList.title = newTitle;
+      setTodoLists([...todoLists]);
+    }
+  };
+
   const removeTodoList = (todoListId: string) => {
     const filteredTodoList = todoLists.filter((tl) => tl.id !== todoListId);
     setTodoLists(filteredTodoList);
@@ -153,6 +161,7 @@ export const App = () => {
             changeFilter={changeFilter}
             changeTaskStatus={changeTaskStatus}
             changeTaskTitle={changeTaskTitle}
+            changeTodoListTitle={changeTodoListTitle}
             removeTodoList={removeTodoList}
           />
         );
